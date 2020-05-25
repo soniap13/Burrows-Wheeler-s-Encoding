@@ -1,4 +1,4 @@
-#include "bwe.hpp"
+#include "bwe-nlogn.hpp"
 #include <iostream>
 using namespace std;
 
@@ -12,5 +12,7 @@ int main(int arg, char**argv){
     char * output_file = argv[3];
     cout<<"Block size: "<<n<<endl;
     cout<<"Encoding "<<input_file<<" and saving into "<<output_file<<endl;
+    bwe encoder;
+    encoder.encode(input_file, output_file, n);
     return 0;
 }
