@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+# Test files
+*.txt
+
+# Compiled files
+bwe-nlogn
+bwe-linear
