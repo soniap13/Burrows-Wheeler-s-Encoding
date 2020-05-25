@@ -19,6 +19,7 @@ void bwe::encode(char * input_file, char * output_file, int block_size){
     bool keep_goin = true;
 
     while(keep_goin){
+        block.clear();
         keep_goin = read_block(block, input, block_size);
         block = bwt(block);
         block = move_to_front(block);
@@ -33,8 +34,8 @@ void bwe::encode(char * input_file, char * output_file, int block_size){
 bool bwe::read_block(list<uint8_t> &input_sequence, ifstream &input, int block_size){
     uint8_t elem;
     for(int i = 0; i < block_size; i++){
-        if(input.eof()) return false;
         input >> elem;
+        if(input.eof()) return false;
         input_sequence.push_back(elem);
     }
     return true;
