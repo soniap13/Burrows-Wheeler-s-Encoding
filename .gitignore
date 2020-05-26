@@ -35,5 +35,4 @@
 *.txt
 
 # Compiled files
-bwe-nlogn
-bwe-linear
+bwe
