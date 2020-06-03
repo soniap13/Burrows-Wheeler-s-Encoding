@@ -1,8 +1,10 @@
 #include "bwe.hpp"
+#include "suffix_tree.hpp"
 #include <iostream>
 using namespace std;
 
 int main(int arg, char**argv){
+
     if(arg != 4){
         cout<<"usage: ./bwt <block size> <input file> <output file>"<<endl;
         return 0;

@@ -1,5 +1,5 @@
 #include "bwe.hpp"
-#include "HuffmanCode/HuffmanEncoder.hpp"
+#include "HuffmanEncoder.hpp"
 #include <iostream>
 #include <errno.h>
 #include <string.h>
@@ -16,22 +16,23 @@ void bwe::encode(char * input_file, char * output_file, int block_size){
     if(!output.good())
         ERROR(output_file);
 
-    list<uint8_t> block;
+    vector<uint8_t> block(block_size);
     bool keep_goin = true;
+    list<uint8_t> output_seq;
 
     while(keep_goin){
         block.clear();
         keep_goin = read_block(block, input, block_size);
-        block = bwt(block);
-        block = move_to_front(block);
-        save_to_file(block, output);
+        output_seq = bwt(block);
+        output_seq = move_to_front(output_seq);
+        save_to_file(output_seq, output);
     }
     input.close();
     output.close();
     huffman_encode(output_file);
 }
 
-bool bwe::read_block(list<uint8_t> &input_sequence, ifstream &input, int block_size){
+bool bwe::read_block(vector<uint8_t> &input_sequence, ifstream &input, int block_size){
     uint8_t elem;
     for(int i = 0; i < block_size; i++){
         input >> elem;
@@ -41,15 +42,21 @@ bool bwe::read_block(list<uint8_t> &input_sequence, ifstream &input, int block_s
     return true;
 }
 
-list<uint8_t> bwe_linear::bwt(list<uint8_t> &sequence){
-    return sequence;
+list<uint8_t> bwe_linear::bwt(vector<uint8_t> &sequence){
+    list<uint8_t> result;
+    for(auto elem : sequence)
+        result.push_back(elem);
+    return result;
 }
 
-list<uint8_t> bwe_nlogn::bwt(list<uint8_t> &sequence){
-    return sequence;
+list<uint8_t> bwe_nlogn::bwt(vector<uint8_t> &sequence){
+    list<uint8_t> result;
+    for(auto elem : sequence)
+        result.push_back(elem);
+    return result;
 }
 
-list<uint8_t> bwe::move_to_front(list<uint8_t> &sequence){
+list<uint8_t> bwe::move_to_front(list<uint8_t> sequence){
     list<uint8_t> result, codes;
     uint8_t code;
     for(uint16_t i = 0; i < 256; i++)
