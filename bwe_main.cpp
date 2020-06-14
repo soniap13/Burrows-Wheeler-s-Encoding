@@ -16,6 +16,24 @@ int main(int arg, char**argv){
     cout<<"Encoding "<<input_file<<" and saving into "<<output_file<<endl;
     bwe_linear linear_encoder;
     linear_encoder.encode(input_file, output_file, n);
-
+    vector<uint8_t> v;
+    v.push_back('a');
+    suffix_tree t1(v);
+    t1.print_tree(t1.root);
+    v.push_back('b');
+    suffix_tree t2(v);
+    t2.print_tree(t2.root);
+    v.push_back('c');
+    suffix_tree t3(v);
+    t3.print_tree(t3.root);
+    v.push_back('a');
+    suffix_tree t4(v);
+    t4.print_tree(t4.root);
+    v.push_back('b');
+    suffix_tree t5(v);
+    t5.print_tree(t5.root);
+    v.push_back('d');
+    suffix_tree t6(v);
+    t6.print_tree(t6.root);
     return 0;
 }
