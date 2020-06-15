@@ -1,5 +1,6 @@
 #include "bwe.hpp"
 #include "HuffmanEncoder.hpp"
+#include "suffix_tree.hpp"
 #include <iostream>
 #include <errno.h>
 #include <string.h>
@@ -36,7 +37,11 @@ bool bwe::read_block(vector<uint8_t> &input_sequence, ifstream &input, int block
     uint8_t elem;
     for(int i = 0; i < block_size; i++){
         input >> elem;
-        if(input.eof()) return false;
+        if(input.eof()){
+            if(input_sequence.size() > 0)
+                input_sequence.pop_back();
+            return false;
+        }
         input_sequence.push_back(elem);
     }
     return true;
@@ -44,8 +49,9 @@ bool bwe::read_block(vector<uint8_t> &input_sequence, ifstream &input, int block
 
 list<uint8_t> bwe_linear::bwt(vector<uint8_t> &sequence){
     list<uint8_t> result;
-    for(auto elem : sequence)
-        result.push_back(elem);
+    suffix_tree st(sequence);
+    //st.print_tree(st.root);
+    st.bwt(st.root, result);
     return result;
 }
 
