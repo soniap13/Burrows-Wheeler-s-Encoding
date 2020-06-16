@@ -3,7 +3,7 @@
 #include <vector>
 
 class node{
-    public:
+    private:
         int l;
         int * r; //represent substring [i,j]
         int path_len; //number of letters before node's parent
@@ -14,6 +14,8 @@ class node{
         node(int l, int * r, int path_len, node * parent = NULL);
         ~node();
         void set_suffix(node * suffix);
+
+        friend class suffix_tree;
 };
 
 class suffix_tree{

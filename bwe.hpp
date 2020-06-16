@@ -7,7 +7,7 @@ class bwe{
     public:
         void encode(char * input_file, char * output_file, int block_size);
 
-    public:
+    private:
         //reads block_size bytes or less if eof was encouterd while reading input file and safes them into list sequence. Returns true if we should continue reading or false if we read whole file
         static bool read_block(std::vector<uint8_t> &input_sequence, std::ifstream &input, int block_size);
         virtual std::list<uint8_t> bwt(std::vector<uint8_t> &sequence) = 0;
@@ -17,9 +17,11 @@ class bwe{
 };
 
 class bwe_linear : public bwe {
-    std::list<uint8_t> bwt(std::vector<uint8_t> &sequence);
+    private:
+        std::list<uint8_t> bwt(std::vector<uint8_t> &sequence);
 };
 
 class bwe_nlogn : public bwe {
-    std::list<uint8_t> bwt(std::vector<uint8_t> &sequence);
+    private:
+        std::list<uint8_t> bwt(std::vector<uint8_t> &sequence);
 };
