@@ -4,17 +4,36 @@
 
 class node{
     private:
-        int l;
-        int * r; //represent substring [i,j]
-        int path_len; //number of letters before node's parent
-        node * next_suffix;
+        int r; //represent substring [i,j]
         std::list<node*> children;
-        node * parent;
+        node * next_suffix;
 
-        node(int l, int * r, int path_len, node * parent = NULL);
-        ~node();
         void set_suffix(node * suffix);
+        node(int l, int r, int path_len, node * parent = NULL);
+        void delete_child(node * n);
 
+    public:
+        int l;
+        node * parent;
+        int path_len;
+
+        node();
+        virtual ~node();
+        int get_begin();
+        virtual int get_end();
+        void change_begin(int new_begin);
+        virtual node* get_suffix();
+        friend class suffix_tree;
+};
+
+class leaf : public node{
+    public:
+        int * r;
+
+        int get_end();
+        leaf(int l, int * r, int path_len, node * parent = NULL);
+        ~leaf();
+        node* get_suffix();
         friend class suffix_tree;
 };
 
@@ -26,13 +45,15 @@ class suffix_tree{
         int * len;
 
         suffix_tree(std::vector<uint8_t> &sequence);
-        ~suffix_tree();
         void create();
-        bool return_child(int &curr_char, node * &curr_node, uint8_t c);
-        void create_nodes(int curr_char, node * curr_node);
-        void print_info(node * n, bool go_further);
+        bool follow_sequence(node * &active_node, node * &active_child, int &active_length, int elem_index);
+        void create_suffixes(int &remaining, node * &active_node, node * &active_child, int &active_length, int elem_index);
+        void print_info(node * n, bool is_suffix = false);
+        ~suffix_tree();
         void print_tree(node * n, int i = 0);
-        void bwt(node * n, std::list<uint8_t> &result);
+        void print_tree(leaf * n, int i);
+        void bwt(node * n, std::list<uint8_t> &result, int &first);
         void add_child(node * parent, node * child);
         void replace_child(node * parent, node * old_child, node * new_child);
 };
+

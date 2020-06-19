@@ -25,12 +25,12 @@ void bwe::encode(char * input_file, char * output_file, int block_size){
         block.clear();
         keep_goin = read_block(block, input, block_size);
         output_seq = bwt(block);
-        output_seq = move_to_front(output_seq);
+        //output_seq = move_to_front(output_seq);
         save_to_file(output_seq, output);
     }
     input.close();
     output.close();
-    huffman_encode(output_file);
+    //huffman_encode(output_file);
 }
 
 bool bwe::read_block(vector<uint8_t> &input_sequence, ifstream &input, int block_size){
@@ -48,10 +48,13 @@ bool bwe::read_block(vector<uint8_t> &input_sequence, ifstream &input, int block
 }
 
 list<uint8_t> bwe_linear::bwt(vector<uint8_t> &sequence){
+    int first = -1;
     list<uint8_t> result;
     suffix_tree st(sequence);
     //st.print_tree(st.root);
-    st.bwt(st.root, result);
+    //cout<<st.not_finished_suffixes<<endl;
+    st.bwt(st.root, result, first);
+    result.push_back(first);
     return result;
 }
 
